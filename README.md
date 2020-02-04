@@ -1,2 +1,4 @@
-# docker_ASK-API_flask-ask_MySQL_CLEAN
-A dockerized Alexa Skill API using flask-ask with aMySQL connection. Clean base template.
+# Alexa Skill API with MySQL DB in Docker
+A dockerized Alexa Skill API using flask-ask with a MySQL database. This is a clean base template.
+
+
