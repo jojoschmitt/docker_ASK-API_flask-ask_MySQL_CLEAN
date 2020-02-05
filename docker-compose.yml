@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+
+    database:
+        image: mysql:8
+        container_name: stock_api_database
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: secure
+            MYSQL_DATABASE: myDatabase
+        volumes:
+        #only activate on first bootup (builds the database from init)
+            - ./db/init:/docker-entrypoint-initdb.d
+            - /var/lib/mysql
+        #after files from container have been copied to storage, use below (persistent)
+        #    - ./db/storage:/var/lib/mysql:rw
+        expose:
+            - "3306"
+            
+
+        
+    adminer:
+        image: adminer
+        container_name: stock_api_adminer
+        restart: always
+        depends_on:
+            - database
+        ports:  
+            - "8080:8080"
+    
+      
+    api:
+        image: python:3-alpine
+        container_name: stock_api
+        restart: always
+        links:
+            - database
+        depends_on:
+            - database
+        volumes:
+            - ./api:/opt/www
+        working_dir:
+            /opt/www
+        command: sh -c "apk add musl-dev libffi-dev openssl-dev git gcc && pip install pip==9.0.3 && pip install 'cryptography<2.2' && pip3 install -r requirements.txt && python3 api.py"
+        ports:
+            - "443:443"
+        expose:
+            - "443"

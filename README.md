@@ -1,4 +1,5 @@
-# Alexa Skill API with MySQL DB in Docker
-A dockerized Alexa Skill API using flask-ask with a MySQL database. This is a clean base template.
+# Stock Tracker API
 
+Its primary use is to respond to Alexa Skills.
 
+The API stores and deletes items from a databas. Commonly these are items used in the household, like cooking ingredients.
